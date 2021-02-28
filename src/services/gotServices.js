@@ -70,36 +70,68 @@ export default class GotService {
         return this._transformBook(book);
     }
 
-    // чтобы трансформировать данные, которые нам приходят
-    _transformCharacter(character){ 
-        return {
-            name: character.name === '' ? 'no data' : character.name, // пришел персонаж - вытащили определенное свойство
-            gender: character.gender === '' ? 'no data' : character.gender,
-            born: character.born === '' ? 'no data' : character.born,
-            died: character.died === '' ? 'no data' : character.died,
-            culture: character.culture === '' ? 'no data' : character.culture
+    _extractId = (item) => { // определяет id элемента
+        const idRegExp = /\/([0-9]*)$/;
+        return item.url.match(idRegExp)[1];
+    }  
+
+
+    isSet(data) { // функция проверяет свойство объекта, если его нет, возвращает строку
+        if (data) {
+            return data
+        } else {
+            return 'no data'
         }
+    }    
+
+    _transformCharacter = (character) => {
+        return {
+            id: this._extractId(character),
+            name: this.isSet(character.name),
+            gender: this.isSet(character.gender),
+            born: this.isSet(character.born),
+            died: this.isSet(character.died), 
+            culture: this.isSet(character.culture)
+        };
     }
 
-    _transformHouse(house){
+
+    // чтобы трансформировать данные, которые нам приходят
+    // _transformCharacter = (character) => { 
+    //     return {
+    //         id: this._extractId(character) === '' ? 'no data' : character.id,
+    //         name: character.name === '' ? 'no data' : character.name, // пришел персонаж - вытащили определенное свойство
+    //         gender: character.gender === '' ? 'no data' : character.gender,
+    //         born: character.born === '' ? 'no data' : character.born,
+    //         died: character.died === '' ? 'no data' : character.died,
+    //         culture: character.culture === '' ? 'no data' : character.culture
+    //     }
+    // }
+
+
+
+
+    _transformHouse = (house) => {
         return{
-            name: house.name,
-            region: house.region,
-            words: house.words,
-            titles: house.titles,
-            overlord: house.overlord,
-            ancestralWeapons: house.ancestralWeapons
+            id: this._extractId(house),
+            name: this.isSet(house.name),
+            region: this.isSet(house.region),
+            words: this.isSet(house.words),
+            titles:this.isSet( house.titles),
+            overlord:this.isSet(house.overlord),
+            ancestralWeapons: this.isSet(house.ancestralWeapons)
         }
     }
 
     // нам необходимы функции трансформаторы, так как не все апи поддерживают нужные нам case
 
-    _transformBook(book){
+    _transformBook = (book) => {
         return {
-            name: book.name,
-            nomberOfPages: book.numberOfPages,
-            publisher: book.publisher,
-            released: book.released
+            id: this._extractId(book),
+            name: this.isSet(book.name),
+            nomberOfPages: this.isSet(book.numberOfPages),
+            publisher: this.isSet(book.publisher),
+            released: this.isSet(book.released)
         }
     }
 }

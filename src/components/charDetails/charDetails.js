@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import './charDetails.css';
 import gotService from '../../services/gotServices';
+import Spinner from '../spinner/spinner';
+import ErrorMessage from '../errorMessage/errorMessage';
 
-
+// выбранный id передается в этот компонент, который нам собирает карточку персонажа
 
 export default class CharDetails extends Component {
 
@@ -10,7 +12,9 @@ export default class CharDetails extends Component {
     gotService = new gotService();
 
     state = {
-        char: null
+        char: null,
+        loading: true,
+        error: false
     }
 
     componentDidMount() {
@@ -23,26 +27,57 @@ export default class CharDetails extends Component {
         }
     }
 
+    onCharDetailsLoaded = (char) => { // принимаем объект и отменяем наш спиннер
+        this.setState({
+            char,
+            loading: false
+        })
+    }
+
     updateChar() {
         const {charId} = this.props;
         if (!charId) { // если id не был передан, мы вообще ничего не будем делать
             return;
         }
 
+        this.setState({ // во время обновление компонента ставим стейт загрузки в тру
+            loading: true
+        })
+
         this.gotService.getChatacter(charId)
-            .then((char) => {
-                this.setState({char}) //  записываем ответ от сервера в наше состояние
-            })
-        // this.foo.charId();
+            .then(this.onCharDetailsLoaded) //  передаем ответ нашей функции, которая принимает объект и меняет наш стейт
+            .catch(() => this.onError()) // при возникновении ошибки вызываем функцию
+            // в которой по условию объекта не будет, но бдует отменчена ошибка
+            // this.foo.charId();
     }
+
+    onError(){
+        this.setState({
+            char: null,
+            error: true
+        })
+    }
+
 
     render() {
 
-        if (!this.state.char) {
-            return <span className='select-error'>Please select a character</span>
+        if (!this.state.char && this.state.error) { // если объект пуст и возникла ошибка то выдаем сообщение об ошибке
+            return <ErrorMessage/>
+        } else if (!this.state.char) { // если просто не выбран персонаж просим его выбрать
+            return <span className="select-error">Please select a character</span>
         }
 
-        const {name, gender, born, died, culture} = this.state.char; // берем все свойтсва из объекта, который  к нам придет от сервера
+        if (this.state.loading) { // если происходит момент загружки - показываем спиннер
+            return (
+                <div>
+                  <Spinner/>   
+                </div>
+            )
+        
+        }
+
+
+        const  {name, gender, born, died, culture} = this.state.char; // берем все свойтсва из объекта, который  к нам придет от сервера
 
         return (
             <div className="char-details rounded">
@@ -69,3 +104,4 @@ export default class CharDetails extends Component {
         );
     }
 }
+
