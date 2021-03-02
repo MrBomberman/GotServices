@@ -6,6 +6,18 @@ import ErrorMessage from '../errorMessage/errorMessage';
 
 // выбранный id передается в этот компонент, который нам собирает карточку персонажа
 
+const Field = ({char,field, label}) => { // элемент, который образим на странице(объект, одно из свойсв которого мы вытащим при помощи field), поле, и как подписать это поле
+    return (
+        <li className="list-group-item d-flex justify-content-between">
+            <span><strong>{label}</strong></span>
+            <span>{char[field]}</span>
+        </li>
+    )
+}
+export {
+    Field
+}
+
 export default class CharDetails extends Component {
 
 
@@ -76,29 +88,18 @@ export default class CharDetails extends Component {
         
         }
 
-
-        const  {name, gender, born, died, culture} = this.state.char; // берем все свойтсва из объекта, который  к нам придет от сервера
-
+        const {char} = this.state; // берем весь наш объект из стейта
+        const  {name} = char; // берем все свойтсва из объекта, который  к нам придет от сервера
+        // обрабатываем всех детей в компоненте плюс перебираем объект
         return (
             <div className="char-details rounded">
                 <h4>{name}</h4>
                 <ul className="list-group list-group-flush">
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span><strong>Gender</strong></span>
-                        <span>{gender}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span><strong>Born</strong></span>
-                        <span>{born}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span><strong>Died</strong></span>
-                        <span>{died}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span><strong>Culture</strong></span>
-                        <span>{culture}</span>
-                    </li>
+                    {
+                        React.Children.map(this.props.children, (child) => {
+                            return React.cloneElement(child, {char})
+                        })
+                    }
                 </ul>
             </div>
         );

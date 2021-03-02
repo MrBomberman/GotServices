@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './itemList.css';
-import gotService from '../../services/gotServices';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/errorMessage';
 // здесь мы собираем список персонажей
@@ -8,7 +7,6 @@ import ErrorMessage from '../errorMessage/errorMessage';
 export default class ItemList extends Component {
 
 
-    gotService = new gotService();
 
     state = {
         charList: null,
@@ -16,10 +14,12 @@ export default class ItemList extends Component {
     }
 
     componentDidMount(){
-        this.gotService.getAllCharacters()
-            .then((charList) => {
+        const {getData} = this.props // получаем функцию с уровня выше getAllCharacters  в данной ситуации
+
+        getData() // функция с уровня выше
+            .then((itemList) => {
                 this.setState({ // получим список персонажей со страницы
-                    charList,
+                    itemList,
                     error: false
                 });
             })
@@ -28,27 +28,28 @@ export default class ItemList extends Component {
 
     componentDidCatch(){
         this.setState({
-            charList: null,
+            itemList: null,
             error: true
         })
     }
 
     onError(status){ // передаем статус ошибки
         this.setState({
-            charList: null,
+            itemList: null,
             error: true
         })
     }
 
     renderItems(arr){
-        return arr.map((item) => { // перебираем массив объектов
-            const {id, name} = item;  //  вытаскиваем свойства из каждого объекта
+        return arr.map((item) => { // перебираем массив объектов - это и есть те объекты, которые мы помещаем на страницу
+            const {id} = item;  //  вытаскиваем свойства из каждого объекта
             // в верстке используем имя каждого объекта и его id, чтобы указывать, куда мы кликаем
+            const label = this.props.renderItem(item); // в нашу функцию из пропса передаем объект со свойтвом, которое интересно нам    
             return (
                     <a class="list-group-item list-group-item-action" 
                     id={id} data-bs-toggle="list" href="#list-profile" 
                     role="tab" aria-controls="profile" 
-                    onClick={() => this.props.onCharSelected(id)}>{name}
+                    onClick={() => this.props.onItemSelected(id)}>{label}
                     </a>
             )
         })
@@ -67,17 +68,17 @@ export default class ItemList extends Component {
 
     render() {
 
-        const {charList, error} = this.state;
+        const {itemList, error} = this.state;
 
         if (error){
             return <ErrorMessage/>
         }
 
-        if(!charList){
+        if(!itemList){
             return <Spinner/>
         }
 
-        const items = this.renderItems(charList);
+        const items = this.renderItems(itemList);
 
         return (
              <div class="list-group" id="list-tab" role="tablist">
