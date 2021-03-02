@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './charDetails.css';
-import gotService from '../../services/gotServices';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/errorMessage';
 
@@ -21,7 +20,6 @@ export {
 export default class CharDetails extends Component {
 
 
-    gotService = new gotService();
 
     state = {
         char: null,
@@ -34,7 +32,7 @@ export default class CharDetails extends Component {
     }
 
     componentDidUpdate(prevProps){ // предыдущие пропсы из компонента, можно их использовать чтобы проверить на соответсвие текущих props
-        if (this.props.charId !== prevProps.charId){ // проверяем текущий пропс на совпадение с предыдущим
+        if (this.props.itemId !== prevProps.itemId){ // проверяем текущий пропс на совпадение с предыдущим
             this.updateChar();
         }
     }
@@ -47,8 +45,10 @@ export default class CharDetails extends Component {
     }
 
     updateChar() {
-        const {charId} = this.props;
-        if (!charId) { // если id не был передан, мы вообще ничего не будем делать
+        const {getData} = this.props
+
+        const {itemId} = this.props;
+        if (!itemId) { // если id не был передан, мы вообще ничего не будем делать
             return;
         }
 
@@ -56,11 +56,11 @@ export default class CharDetails extends Component {
             loading: true
         })
 
-        this.gotService.getChatacter(charId)
+        getData(itemId)
             .then(this.onCharDetailsLoaded) //  передаем ответ нашей функции, которая принимает объект и меняет наш стейт
             .catch(() => this.onError()) // при возникновении ошибки вызываем функцию
             // в которой по условию объекта не будет, но бдует отменчена ошибка
-            // this.foo.charId();
+            // this.foo.itemId();
     }
 
     onError(){

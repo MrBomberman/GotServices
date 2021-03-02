@@ -46,7 +46,8 @@ export default class CharacterPage extends Component{
         // чтобы использовать api нам необходмио преобразовать детей, который прихоядт в этот компонент
         // также мы указываем каждого персонажа и его поля, который к нам пришел из api
     const charDetails = (
-        <CharDetails charId={this.state.selectedChar}>
+        <CharDetails itemId={this.state.selectedChar}
+        getData={this.gotService.getChatacter}>
             <Field
             field='gender'
             label='Gender'/>

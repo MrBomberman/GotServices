@@ -129,7 +129,7 @@ export default class GotService {
         return {
             id: this._extractId(book),
             name: this.isSet(book.name),
-            nomberOfPages: this.isSet(book.numberOfPages),
+            numberOfPages: this.isSet(book.numberOfPages),
             publisher: this.isSet(book.publisher),
             released: this.isSet(book.released)
         }
