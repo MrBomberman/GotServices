@@ -35,13 +35,13 @@ const Header = () => {
             </HeaderTitle>
             <HeaderLinks>
                 <li>
-                <Link to="/characters" class="btn btn-primary">Characters</Link>
+                <Link to="/characters/" class="btn btn-primary">Characters</Link>
                 </li>
                 <li>
-                <Link to="/houses" class="btn btn-primary">Houses</Link>
+                <Link to="/houses/" class="btn btn-primary">Houses</Link>
                 </li>
                 <li>
-                <Link to="/books" class="btn btn-primary">Books </Link>  
+                <Link to="/books/" class="btn btn-primary">Books </Link>  
                 </li>
             </HeaderLinks>
         </HeaderBlock>
