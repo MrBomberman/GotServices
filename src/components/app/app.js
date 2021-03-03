@@ -4,7 +4,7 @@ import Header from '../header';
 import RandomChar from '../randomChar';
 import './app.css';
 import ErrorMessage from '../errorMessage/errorMessage'
-import CharacterPage from '../characterPage/characterPage';
+import CharacterPage from '../pages/characterPage/characterPage';
 import gotService from '../../services/gotServices';
 import BooksPage from '../pages/booksPage/booksPage';
 import HousesPage from '../pages/housesPage/housesPage';

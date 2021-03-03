@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ItemList from '../../itemList/itemList'
-import CharDetails,{Field} from '../../charDetails/charDetails'
+import ItemDetails,{Field} from '../../itemDetails/itemDetails'
 import gotService from '../../../services/gotServices';
 import ErrorMessage from '../../errorMessage/errorMessage';
 import RowBlock from '../../rowBlock/rowBlock'
@@ -40,7 +40,7 @@ export default class HousesPage extends Component {
 
 
         const houseDetails = (
-            <CharDetails itemId={this.state.selectedHouse}
+            <ItemDetails itemId={this.state.selectedHouse}
             getData={this.gotService.getHouse}>
                 <Field field='region' label='Region'/>
                 <Field field='words' label='Words'/>
@@ -48,7 +48,7 @@ export default class HousesPage extends Component {
                 <Field field='overlord' label='Overlord'/>
                 <Field field='ancestralWeapons' label='AncestralWeapons'/>
 
-            </CharDetails>
+            </ItemDetails>
         )
 
         return (

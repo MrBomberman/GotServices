@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {Col, Row, Container} from 'reactstrap';
-import ItemList from '../itemList';
-import CharDetails,{Field} from '../charDetails/charDetails';
-import ErrorMessage from '../errorMessage/errorMessage';
-import gotService from '../../services/gotServices';
-import RowBlock from '../rowBlock/rowBlock'
+import ItemList from '../../itemList/itemList';
+import ItemDetails,{Field} from '../../itemDetails/itemDetails';
+import ErrorMessage from '../../errorMessage/errorMessage';
+import gotService from '../../../services/gotServices';
+import RowBlock from '../../rowBlock/rowBlock'
 
 export default class CharacterPage extends Component{
     
@@ -46,7 +45,7 @@ export default class CharacterPage extends Component{
         // чтобы использовать api нам необходмио преобразовать детей, который прихоядт в этот компонент
         // также мы указываем каждого персонажа и его поля, который к нам пришел из api
     const charDetails = (
-        <CharDetails itemId={this.state.selectedChar}
+        <ItemDetails itemId={this.state.selectedChar}
         getData={this.gotService.getChatacter}>
             <Field
             field='gender'
@@ -60,7 +59,7 @@ export default class CharacterPage extends Component{
             <Field
             field='culture'
             label='Culture'/>
-        </CharDetails> 
+        </ItemDetails> 
     )
 
     return ( // передаем новый компонент и два пропса в него
