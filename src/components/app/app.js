@@ -10,6 +10,7 @@ import BooksPage from '../pages/booksPage/booksPage';
 import HousesPage from '../pages/housesPage/housesPage';
 import {BrowserRouter as Router, Route} from 'react-router-dom'; 
 import BooksItem from '../pages/booksPage/booksItem'
+import HousesItem from '../pages/housesPage/housesItem'
 
 export default class App extends Component {
 
@@ -61,7 +62,13 @@ export default class App extends Component {
                         </Row>
 
                         <Route path='/characters' component={CharacterPage}/>
-                        <Route path='/houses' component={HousesPage}/>
+                        <Route path='/houses/' exact component={HousesPage}/>
+                        <Route path='/houses/:id' render={
+                            ({match}) =>  {
+                                const {id} = match.params;
+                                return <HousesItem houseId={id}/>
+                            }
+                        }/>
                         <Route path='/books' exact component={BooksPage}/>
                         <Route path='/books/:id' render={
                             ({match}) => {

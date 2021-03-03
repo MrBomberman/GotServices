@@ -76,7 +76,7 @@ export default class ItemDetails extends Component {
         if (!this.state.item && this.state.error) { // если объект пуст и возникла ошибка то выдаем сообщение об ошибке
             return <ErrorMessage/>
         } else if (!this.state.item) { // если просто не выбран персонаж просим его выбрать
-            return <span className="select-error">Please select a character</span>
+            return <span className="select-error">Please select an item</span>
         }
 
         if (this.state.loading) { // если происходит момент загружки - показываем спиннер

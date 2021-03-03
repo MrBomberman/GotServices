@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
 import ItemList from '../../itemList/itemList'
-import ItemDetails,{Field} from '../../itemDetails/itemDetails'
 import gotService from '../../../services/gotServices';
 import ErrorMessage from '../../errorMessage/errorMessage';
-import RowBlock from '../../rowBlock/rowBlock'
+import {withRouter} from 'react-router-dom';
 
-export default class HousesPage extends Component {
+class HousesPage extends Component {
     gotService = new gotService();
 
     state = { 
-        selectedHouse: null,
         error: false
     }
 
-    onItemSelected = (id) => { // принимаем id - куда мы кликнули, функция поместит id в текущий state
-        this.setState({
-            selectedHouse: id
-        })
-    }
+    // onItemSelected = (id) => { // принимаем id - куда мы кликнули, функция поместит id в текущий state
+    //     this.setState({
+    //         selectedHouse: id
+    //     })
+    // }
 
     componentDidCatch(){
         this.setState({
@@ -32,30 +30,18 @@ export default class HousesPage extends Component {
         }
 
 
-        const itemList = (
-            <ItemList onItemSelected={this.onItemSelected}
+        return (
+            <ItemList onItemSelected={(itemId) => {
+                this.props.history.push(itemId)
+            }}
             getData={this.gotService.getAllHouses}
             renderItem={({name, region}) => `${name} (${region})`}/>
         )
 
 
-        const houseDetails = (
-            <ItemDetails itemId={this.state.selectedHouse}
-            getData={this.gotService.getHouse}>
-                <Field field='region' label='Region'/>
-                <Field field='words' label='Words'/>
-                <Field field='titles' label='Titles'/>
-                <Field field='overlord' label='Overlord'/>
-                <Field field='ancestralWeapons' label='AncestralWeapons'/>
 
-            </ItemDetails>
-        )
-
-        return (
-            <RowBlock
-            left={itemList}
-            right={houseDetails}/>
-        )
 
     }
 }
+
+export default withRouter(HousesPage);
