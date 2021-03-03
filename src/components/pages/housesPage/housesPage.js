@@ -31,8 +31,9 @@ class HousesPage extends Component {
 
 
         return (
-            <ItemList onItemSelected={(itemId) => {
-                this.props.history.push(itemId)
+            <ItemList 
+            onItemSelected={(itemId) => {
+                this.props.history.push(itemId) // передаем путь к странице, на которую перейдем после клика
             }}
             getData={this.gotService.getAllHouses}
             renderItem={({name, region}) => `${name} (${region})`}/>
