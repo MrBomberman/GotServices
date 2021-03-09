@@ -42,7 +42,7 @@ export default class App extends Component {
         if (this.state.error) {
             return <ErrorMessage/>
         }
-        const char = this.state.showRandomChar ? <RandomChar/> : null;
+        const char = this.state.showRandomChar ? <RandomChar getData={this.gotService.getChatacter}/> : null;
 
         return (        
             <Router>

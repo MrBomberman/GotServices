@@ -10,9 +10,14 @@ function ItemList ({getData, onItemSelected, renderItem})  {
 
     useEffect(() => {
         getData() // функция с уровня выше
-        .then((data) => {
-                updateList(data) // изменяем стейт, который лежит в itemList
-            })
+        .then(updateList) // привязан котекст вызова - поэтому рез вызова не зависит от места вызова
+        // .then((data) => {
+        //     updateList(data)
+        // })
+            
+            
+            //     updateList(data) // изменяем стейт, который лежит в itemList
+            // })
     }, []) // принимает второй аргумент, что делать, если стейт не изменился
     // передаем пустой массив - это говорит хуку, что эффект необходимо выполнить только при появлении или исчезновении компонента
 
@@ -24,7 +29,7 @@ function ItemList ({getData, onItemSelected, renderItem})  {
     //     })
     // }
 
-    // onError(status){ // передаем статус ошибки
+    // function onError(status){ // передаем статус ошибки
     //     this.setState({
     //         itemList: null,
     //         error: true
@@ -38,7 +43,7 @@ function ItemList ({getData, onItemSelected, renderItem})  {
             const label = renderItem(item); // в нашу функцию из пропса передаем объект со свойтвом, которое интересно нам    
             return (
                     <a class="list-group-item list-group-item-action" 
-                    key={id} data-bs-toggle="list" href="#list-profile" 
+                    key={id} data-bs-toggle="list" href="#" 
                     role="tab" aria-controls="profile" 
                     onClick={() => onItemSelected(id)}>{label}
                     </a>
@@ -78,3 +83,4 @@ function ItemList ({getData, onItemSelected, renderItem})  {
 }
 
 export default ItemList;
+
