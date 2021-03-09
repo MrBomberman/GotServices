@@ -1,6 +1,5 @@
 import React, {Component, useEffect, useState} from 'react';
 import './randomChar.css';
-import gotService from '../../services/gotServices';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/errorMessage';
 // import PropTypes from 'prop-types';
@@ -10,7 +9,8 @@ export default function RandomChar ({getData}){
     const [char, setChar] = useState({});
     const [loading , setLoading] = useState(true);
     const [error, setError] = useState(false);
-    
+    const [charId , setCharId] = useState(8)
+
     // state = { // задаем состояния компонента
     //     char: {}, // изначально у нас просто пустой объект, который  в будущем заполнится данными с нашего сервера
     //     loading: true,
@@ -21,21 +21,41 @@ export default function RandomChar ({getData}){
     //     interval: 2000 // ставим дефолтный пропс, в случае, если его даже не передали, компонент все равно отработает
     // }
     
+    useEffect(() => {
+        let interval = setInterval(() => {
+            setCharId(Math.floor(Math.random()* 20 + 130))
+        }, 1500)
+        return () => clearInterval(interval)
+    }, []) // создаем отдельный эффект под таймаут, число будет генерироваться каждый 1.5 секунды
+
 
     useEffect(() => {
         
-        const id = Math.floor(Math.random()*170 + 25); // получаем рандомное число от 25 до 140 диапазон персонажей
+        // const id = Math.floor(Math.random()*170 + 25); // получаем рандомное число от 25 до 140 диапазон персонажей
+
         
-        
-        getData(id) // используем наш сервис, обращаясь к одному из его методов
+        getData(charId) // используем наш сервис, обращаясь к одному из его методов
             .then(setChar) // получаем данные от сервера уже преобразованные нашей функцией
             .catch(() => setError(true)) // выполнится тогда, когда произойдет ошибка в промисе
             .then(() => setLoading(false))
         
+        
+            // setInterval(async () => {
+            //     await getData(id) // используем наш сервис, обращаясь к одному из его методов
+            //     .then(setChar) // получаем данные от сервера уже преобразованные нашей функцией
+            //     .catch(() => setError(true)) // выполнится тогда, когда произойдет ошибка в промисе
+            //     .then(() => setLoading(false))
+                
+                
+            //   }, 1000)
             
             
-    }, [char])
+            
+    }, [charId])
+
        
+
+
 
 
 

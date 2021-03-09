@@ -9,7 +9,7 @@ export default class CharacterPage extends Component{
     
     gotService = new gotService();
     state = {
-        selectedChar: 23,
+        selectedChar:  Math.floor(Math.random()* 10 +6),
         error: false
     }
 
