@@ -9,7 +9,7 @@ export default function RandomChar ({getData}){
     const [char, setChar] = useState({});
     const [loading , setLoading] = useState(true);
     const [error, setError] = useState(false);
-    const [charId , setCharId] = useState(8)
+    const [charId , setCharId] = useState(Math.floor(Math.random()* 20 + 130))
 
     // state = { // задаем состояния компонента
     //     char: {}, // изначально у нас просто пустой объект, который  в будущем заполнится данными с нашего сервера
