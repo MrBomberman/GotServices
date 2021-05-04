@@ -5,9 +5,9 @@
     outline: none;
 }
 body {
-    overflow-x: hidden;
-    background: url('got.jpeg') center center no-repeat;
+    background: url('got.jpeg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     background-size: cover;
-    font-size: 16px;
-    height: 100%;	
 }
